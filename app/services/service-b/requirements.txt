@@ -1,0 +1,7 @@
+Flask==0.12.2
+Flask-Script==2.0.6
+requests
+Flask-PyMongo==2.1.0
+pytz
+flask-cors==3.0.6
+Werkzeug==0.16.1
