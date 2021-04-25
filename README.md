@@ -8,7 +8,7 @@ curl --location --request POST '<server>/prod/service-a/config' \
 --data-raw '{
     "conf_name": "service-a",
     "test": "test1"
-}'
+}'  
 to update config:  
 curl --location --request PUT '<server>/prod/service-a/config' \
 --header 'Content-Type: application/json' \
