@@ -1,0 +1,48 @@
+version: '3.5'
+
+services:
+    gateway:
+        image: nginx:1.17.6
+        container_name: nginx
+        volumes:
+          - ./app/services/gateway:/etc/nginx
+        ports:
+          - "80:80"
+
+    service-a:
+        build:
+          context: ./
+          dockerfile: ./app/services/service-a/Dockerfile
+        volumes:
+            - './app/services/service-a:/usr/src/app'
+        ports:
+          - 5001:5000
+        environment:
+          - APP_SETTINGS=project.config.ProductionConfig
+        command: python -u app.py run -h 0.0.0.0
+        depends_on:
+          - service-a-db
+
+    service-a-db:
+        image: mongo:3.2.20-jessie
+        ports:
+          - 27018:27017
+
+    service-b:
+        build:
+          context: ./
+          dockerfile: ./app/services/service-b/Dockerfile
+        volumes:
+            - './app/services/service-b:/usr/src/app'
+        ports:
+          - 5002:5000
+        environment:
+          - APP_SETTINGS=project.config.ProductionConfig
+        command: python -u app.py run -h 0.0.0.0
+        depends_on:
+          - service-b-db
+
+    service-b-db:
+        image: mongo:3.2.20-jessie
+        ports:
+          - 27019:27017
